@@ -96,7 +96,7 @@ public class Utility {
             JSONObject jsonObject=new JSONObject(response);
             JSONArray jsonArray=jsonObject.getJSONArray("HeWeather6");
             String weatherContent=jsonArray.getJSONObject(0).toString();
-            Log.d("cccc", "handleWeatherResponse: "+weatherContent);
+          //  Log.d("cccc", "handleWeatherResponse: "+weatherContent);
 
             return new Gson().fromJson(weatherContent,Weather.class);
 
