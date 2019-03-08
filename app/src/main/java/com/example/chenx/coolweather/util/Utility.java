@@ -1,10 +1,14 @@
 package com.example.chenx.coolweather.util;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.chenx.coolweather.db.City;
 import com.example.chenx.coolweather.db.County;
 import com.example.chenx.coolweather.db.Province;
+import com.example.chenx.coolweather.gson.Weather;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,5 +88,25 @@ public class Utility {
         return false;
 
     }
+
+
+    public static Weather handleWeatherResponse(String response){
+
+        try{
+            JSONObject jsonObject=new JSONObject(response);
+            JSONArray jsonArray=jsonObject.getJSONArray("HeWeather6");
+            String weatherContent=jsonArray.getJSONObject(0).toString();
+            Log.d("cccc", "handleWeatherResponse: "+weatherContent);
+
+            return new Gson().fromJson(weatherContent,Weather.class);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
 
 }

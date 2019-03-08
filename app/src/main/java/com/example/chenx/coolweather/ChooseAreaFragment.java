@@ -1,6 +1,7 @@
 package com.example.chenx.coolweather;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.example.chenx.coolweather.db.City;
 import com.example.chenx.coolweather.db.County;
 import com.example.chenx.coolweather.db.Province;
+import com.example.chenx.coolweather.gson.Weather;
 import com.example.chenx.coolweather.util.HttpUtil;
 import com.example.chenx.coolweather.util.Utility;
 
@@ -62,10 +64,8 @@ public class ChooseAreaFragment extends Fragment {
         titleText=(TextView)view.findViewById(R.id.title_text);
         backButton=(Button)view.findViewById(R.id.back_button);
         listView=(ListView)view.findViewById(R.id.list_view);
-       // dataList.add("dasd");
         adapter=new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,dataList);//yongdatalist
         listView.setAdapter(adapter);
-      //  Log.d("pppp", "onCreateView: ");
         return view;
     }
 
@@ -82,6 +82,12 @@ public class ChooseAreaFragment extends Fragment {
                     selectedCity=cityList.get(position);
                     queryCounties();
 
+                }else if(currentLevel==LEVEL_COUNTY){
+                    String weatherId=countyList.get(position).getWeatherId();
+                    Intent intent=new Intent(getActivity(),WeatherActivity.class);
+                    intent.putExtra("weather_id",weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
@@ -99,7 +105,7 @@ public class ChooseAreaFragment extends Fragment {
 
         });
 
-       // Log.d("pppp", "onActivityCreated: ");
+
         queryProvinces();//初始化省会
 
 
@@ -115,7 +121,7 @@ public class ChooseAreaFragment extends Fragment {
             dataList.clear();
             for(Province province:provinceList){
                 dataList.add(province.getProvinceName());
-           //     Log.d("pppp", "queryProvinces: "+province.getProvinceName());
+
             }
 
             adapter.notifyDataSetChanged();
@@ -127,17 +133,6 @@ public class ChooseAreaFragment extends Fragment {
 
 
         }
-
-       // dataList.clear();
-//            for(int i=0;i<10;i++){
-//                dataList.add("dsa");
-//            //    Log.d("pppp", "queryProvinces: "+i);
-//            }
-//
-//            adapter.notifyDataSetChanged();
-//        Log.d("pppp", "queryProvinces: "+adapter.getCount());
-//            listView.setSelection(0);
-//            currentLevel=LEVEL_PROVINCE;
 
 
 
@@ -153,7 +148,7 @@ public class ChooseAreaFragment extends Fragment {
             dataList.clear();
             for(City city:cityList){
                 dataList.add(city.getCityName());
-             //   Log.d("pppp", "queryProvinces: "+city.getCityName());
+
             }
 
             adapter.notifyDataSetChanged();
