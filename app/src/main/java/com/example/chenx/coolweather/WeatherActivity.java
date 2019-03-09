@@ -1,5 +1,6 @@
 package com.example.chenx.coolweather;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -24,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.example.chenx.coolweather.gson.Forecast;
 import com.example.chenx.coolweather.gson.LifestyleType;
 import com.example.chenx.coolweather.gson.Weather;
+import com.example.chenx.coolweather.service.AutoUptateService;
 import com.example.chenx.coolweather.util.HttpUtil;
 import com.example.chenx.coolweather.util.Utility;
 
@@ -150,6 +152,7 @@ public class WeatherActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Glide.with(WeatherActivity.this).load(bingPic).into(bingPicImg);
+                   //     Log.d("dddd", "run: ");
                     }
                 });
 
@@ -261,5 +264,7 @@ public class WeatherActivity extends AppCompatActivity {
 
 
         weatherLayout.setVisibility(View.VISIBLE);
+        Intent intent=new Intent(this,AutoUptateService.class);
+        startService(intent);
     }
 }
